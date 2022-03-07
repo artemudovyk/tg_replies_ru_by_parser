@@ -66,8 +66,6 @@ def save_to_db_batch(users):
         "users": users
     }
     headers = {"Content-Type": "application/json"}
-    
-    # print(payload)
 
     while True:
         try:
@@ -76,8 +74,6 @@ def save_to_db_batch(users):
         except requests.exceptions.ConnectTimeout:
             time.sleep(3)
             
-    print(response)
-    
     print(response)
     
     return response
