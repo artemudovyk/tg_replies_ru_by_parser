@@ -98,8 +98,8 @@ async def main():
         async for message in client.iter_messages(group, limit=3000):
             messages.append((group, message))
             
-        stack_to_save_in_db = []
         for group, message in messages:
+            list_to_save_in_db = []
             try:
                 async for reply in client.iter_messages(group, reply_to=message.id, limit=2000):
                     user = await reply.get_sender()
@@ -107,7 +107,7 @@ async def main():
                         if user.phone and user.phone not in phone_numbers and (user.phone.startswith('7') or user.phone.startswith('375')):
                             print(user.phone, user.username)
                             phone_numbers.add(user.phone)
-                            stack_to_save_in_db.append({
+                            list_to_save_in_db.append({
                                 "phone": user.phone, 
                                 "username": user.username
                             })
@@ -118,8 +118,8 @@ async def main():
                 continue
             
             # Save all new contacts to db if it's not empty
-            if stack_to_save_in_db:
-                save_to_db_batch(stack_to_save_in_db)
+            if list_to_save_in_db:
+                save_to_db_batch(list_to_save_in_db)
 
 
 if __name__ == "__main__":
